@@ -8,10 +8,27 @@ import Home from './pages/Home/Home';
 import Dashboard from './pages/dashboard/Dashboard';
 import Sidebar from './components/sidebar/Sidebar';
 import Layout from './components/layout/Layout';
+import axios from 'axios';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { userStatus } from './redux/actions/userAction';
+import { getAllProduct } from './redux/actions/productAction';
+
+axios.defaults.withCredentials = true;
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(userStatus());
+  }, []);
+
   return (
     <Router>
+      <ToastContainer style={{ fontSize: '16px' }} />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
@@ -21,7 +38,7 @@ function App() {
         <Route
           path='/dashboard'
           element={
-            <Sidebar>
+            <Sidebar title='Dashboard'>
               <Layout>
                 <Dashboard />
               </Layout>

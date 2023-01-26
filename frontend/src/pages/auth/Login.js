@@ -1,14 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../../components/card/Card';
 import MetaData from '../../components/MetaData';
 import styles from './auth.module.scss';
 import { BiLogIn } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  login,
+  clearErrors,
+  validateEmail,
+} from '../../redux/actions/userAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import Loader from '../../components/loader/Loader';
 
 const Login = () => {
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+
+  const { loading, isLoggedIn, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const loginSubmit = (e) => {
+    e.preventDefault();
+
+    if (!loginEmail || !loginPassword) {
+      return toast.error('All fields are required');
+    }
+
+    if (loginPassword.length < 6) {
+      return toast.error('Password must be upto 6 characters.');
+    }
+
+    if (!validateEmail(loginEmail)) {
+      return toast.error('Please enter a vaild email.');
+    }
+
+    dispatch(login(loginEmail, loginPassword));
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/dashboard');
+    }
+
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
+    }
+  }, [error, isLoggedIn, dispatch, navigate]);
+
   return (
     <>
       <MetaData title='Login' />
+      {loading && <Loader />}
       <div className={`container ${styles.auth}`}>
         <Card>
           <div className={styles.form}>
@@ -17,13 +62,20 @@ const Login = () => {
             </div>
             <h2>Login</h2>
 
-            <form>
-              <input type='email' placeholder='Email' required name='email' />
+            <form onSubmit={loginSubmit}>
+              <input
+                type='email'
+                placeholder='Email'
+                required
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+              />
               <input
                 type='password'
                 placeholder='Password'
                 required
-                name='password'
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
               />
               <button type='submit' className='--btn --btn-primary --btn-block'>
                 Login

@@ -55,7 +55,7 @@ const createProduct = asyncHandler(async (req, res) => {
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({ user: req.user.id }).sort('-createdAt');
 
-  res.status(200).json({ productCount: products.length, products });
+  res.status(200).json({ productsCount: products.length, products });
 });
 
 // Get Single Product
