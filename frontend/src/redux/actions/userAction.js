@@ -17,6 +17,9 @@ import {
   USER_STATUS_REQUEST,
   USER_STATUS_SUCCESS,
   USER_STATUS_FAIL,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAIL,
 } from '../constants/userConstant';
 
 import axios from 'axios';
@@ -146,6 +149,28 @@ export const userStatus = () => async (dispatch) => {
       type: USER_STATUS_FAIL,
       payload: error.response.data.message,
     });
+  }
+};
+
+// Update User Profile
+export const updateProfile = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_USER_REQUEST });
+
+    const config = {
+      headers: { 'Cntent-Type': 'multiform/form-data' },
+    };
+
+    const { data } = await axios.patch(
+      `${BACKEND_URL}/api/users/updateuser`,
+      userData,
+      config
+    );
+
+    dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
+    toast.success('User Profile Updated Successfully.');
+  } catch (error) {
+    dispatch({ type: UPDATE_USER_FAIL, payload: error.response.data.message });
   }
 };
 

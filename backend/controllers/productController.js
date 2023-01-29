@@ -100,7 +100,9 @@ const deleteProduct = asyncHandler(async (req, res) => {
   // });
 
   await product.remove();
-  res.status(200).json({ message: 'Product deleted successfully' });
+  res
+    .status(200)
+    .json({ message: 'Product deleted successfully', success: true });
 });
 
 // Update Product
@@ -162,7 +164,10 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
   );
 
-  res.status(200).json(updatedProduct);
+  res.status(200).json({
+    success: true,
+    updatedProduct,
+  });
 });
 
 module.exports = {

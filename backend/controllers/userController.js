@@ -191,6 +191,7 @@ const updateUser = asyncHandler(async (req, res) => {
       phone: updatedUser.phone,
       photo: updatedUser.photo,
       email: updatedUser.email,
+      success: true,
     });
   } else {
     res.status(404);

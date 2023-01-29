@@ -2,11 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {
-  clearErrors,
-  logout,
-  userStatus,
-} from '../../redux/actions/userAction';
+import { capitalizeName } from '../../utils/capitalizeName';
+import { clearErrors, logout } from '../../redux/actions/userAction';
+import { shortenText } from '../../utils/shortenText';
 
 const Header = () => {
   const { error, user } = useSelector((state) => state.user);
@@ -31,7 +29,11 @@ const Header = () => {
       <div className='--flex-between'>
         <h3>
           <span className='--fw-thin'>Welcome, </span>
-          <span className='--color-danger'>{user.name}</span>
+          <span className='--color-danger'>
+            {window.innerWidth <= 600
+              ? shortenText(capitalizeName(user.name), 10)
+              : capitalizeName(user.name)}
+          </span>
         </h3>
         <button className='--btn --btn-danger' onClick={logoutHandler}>
           Logout
