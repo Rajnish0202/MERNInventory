@@ -20,6 +20,9 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
 } from '../constants/userConstant';
 
 import axios from 'axios';
@@ -153,13 +156,11 @@ export const userStatus = () => async (dispatch) => {
 };
 
 // Update User Profile
-export const updateProfile = (userData) => async (dispatch) => {
+export const userProfile = (userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
 
-    const config = {
-      headers: { 'Cntent-Type': 'multiform/form-data' },
-    };
+    const config = { headers: { 'Content-Type': 'application/json' } };
 
     const { data } = await axios.patch(
       `${BACKEND_URL}/api/users/updateuser`,
@@ -167,10 +168,36 @@ export const updateProfile = (userData) => async (dispatch) => {
       config
     );
 
-    dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
-    toast.success('User Profile Updated Successfully.');
+    dispatch({ type: UPDATE_USER_SUCCESS, payload: data });
+    toast.success('Profile updated successfully.');
   } catch (error) {
-    dispatch({ type: UPDATE_USER_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: UPDATE_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Update User Password
+export const userPasswordUpdate = (passwords) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PASSWORD_REQUEST });
+
+    const config = { headers: { 'Content-Type': 'application/json' } };
+
+    const { data } = await axios.patch(
+      `${BACKEND_URL}/api/users/changepassword`,
+      passwords,
+      config
+    );
+
+    dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data });
+    toast.success('Password updated successfully.');
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PASSWORD_FAIL,
+      payload: error.response.data.message,
+    });
   }
 };
 

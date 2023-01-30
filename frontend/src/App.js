@@ -10,7 +10,7 @@ import Sidebar from './components/sidebar/Sidebar';
 import Layout from './components/layout/Layout';
 import axios from 'axios';
 
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,20 +20,18 @@ import ProductDetails from './components/product/productDetails/ProductDetails';
 import EditProduct from './pages/editProduct/EditProduct';
 import Profile from './pages/profile/Profile';
 import EditProfile from './pages/profile/EditProfile';
+import Contact from './pages/contact/Contact';
 
 axios.defaults.withCredentials = true;
 
 function App() {
-  const { isLoggedIn, error, user } = useSelector((state) => state.user);
+  const { isLoggedIn, user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // if (error) {
-    //   toast.info(error);
-    // }
     dispatch(userStatus());
-  }, [dispatch, error]);
+  }, [dispatch]);
 
   return (
     <Router>
@@ -116,6 +114,19 @@ function App() {
             isLoggedIn ? (
               <Sidebar title='Update Product'>
                 <Layout childern={<EditProduct />} />
+              </Sidebar>
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path='/contact-us'
+          element={
+            isLoggedIn ? (
+              <Sidebar title='Contact Us'>
+                <Layout childern={<Contact />} />
               </Sidebar>
             ) : (
               <Login />

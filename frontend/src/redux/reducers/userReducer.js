@@ -1,6 +1,7 @@
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGIN_RESET,
   LOGIN_FAIL,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -21,6 +22,10 @@ import {
   UPDATE_USER_FAIL,
   UPDATE_USER_RESET,
   CLEAR_ERRORS,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
+  UPDATE_PASSWORD_RESET,
 } from '../constants/userConstant';
 
 export const userReducer = (state = { user: {} }, action) => {
@@ -59,6 +64,13 @@ export const userReducer = (state = { user: {} }, action) => {
         user: null,
         error: action.payload,
       };
+
+    case LOGIN_RESET: {
+      return {
+        ...state,
+        user: null,
+      };
+    }
 
     case USER_STATUS_FAIL:
       return {
@@ -128,22 +140,25 @@ export const forgotPasswordReducer = (state = {}, action) => {
   }
 };
 
-export const userAction = (state = {}, action) => {
+export const userUpdateReducer = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_USER_REQUEST:
+    case UPDATE_PASSWORD_REQUEST:
       return {
         ...state,
         loading: true,
       };
 
     case UPDATE_USER_SUCCESS:
+    case UPDATE_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
-        isUpdated: action.payload,
+        isUpdated: action.payload.success,
       };
 
     case UPDATE_USER_FAIL:
+    case UPDATE_PASSWORD_FAIL:
       return {
         ...state,
         loading: false,
@@ -151,6 +166,7 @@ export const userAction = (state = {}, action) => {
       };
 
     case UPDATE_USER_RESET:
+    case UPDATE_PASSWORD_RESET:
       return {
         ...state,
         isUpdated: false,

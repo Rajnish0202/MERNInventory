@@ -29,8 +29,8 @@ const userSchema = mongoose.Schema(
         'https://res.cloudinary.com/dukdn1bpp/image/upload/v1670577687/avatars/ytffuvbukg5j3nrp5uhc.png',
     },
     phone: {
-      type: String,
-      default: '+91',
+      type: Number,
+      default: '91',
     },
     bio: {
       type: String,

@@ -94,7 +94,7 @@ const loginUser = asyncHandler(async (req, res) => {
   if (passwordIsCorrect) {
     res.cookie('token', token, {
       httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 24 * 60 * 60),
+      expires: new Date(Date.now() + 1000 * 24 * 60 * 60 * 30),
     });
   }
 
@@ -187,10 +187,10 @@ const updateUser = asyncHandler(async (req, res) => {
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
-      bio: updatedUser.bio,
-      phone: updatedUser.phone,
-      photo: updatedUser.photo,
       email: updatedUser.email,
+      photo: updatedUser.photo,
+      phone: updatedUser.phone,
+      bio: updatedUser.bio,
       success: true,
     });
   } else {
