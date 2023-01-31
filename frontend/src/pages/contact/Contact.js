@@ -2,7 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
-import { GoLocation, GoLogoGithub } from 'react-icons/go';
+import { GoLocation } from 'react-icons/go';
+import { BsGithub } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import Card from '../../components/card/Card';
 import './Contact.scss';
@@ -38,6 +39,8 @@ const Contact = () => {
 
     if (success) {
       navigate('/contact-us');
+      setMessage('');
+      setSubject('');
     }
   }, [error, dispatch, navigate, success]);
 
@@ -91,7 +94,7 @@ const Contact = () => {
                 <p>Lucknow, U.P, India</p>
               </span>
               <span>
-                <GoLogoGithub />
+                <BsGithub />
                 <p>
                   <a
                     href='https://github.com/Rajnish0202/MERNInventory'

@@ -162,7 +162,7 @@ const EditProfile = () => {
             </p>
             <div>
               <button className='--btn --btn-primary' type='submit'>
-                Edit Profile
+                Save Changes
               </button>
             </div>
           </span>
