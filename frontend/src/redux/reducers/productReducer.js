@@ -57,7 +57,6 @@ export const createProductReducer = (state = { product: {} }, action) => {
       return {
         ...state,
         loading: true,
-        success: false,
       };
 
     case CREATE_PRODUCT_SUCCESS:
@@ -71,7 +70,6 @@ export const createProductReducer = (state = { product: {} }, action) => {
       return {
         ...state,
         loading: false,
-        success: false,
         error: action.payload,
       };
 

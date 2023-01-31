@@ -52,7 +52,6 @@ export const createProduct = (productData) => async (dispatch) => {
       type: CREATE_PRODUCT_FAIL,
       payload: error.respone.data.message,
     });
-    toast.error(error.respone.data.message);
   }
 };
 

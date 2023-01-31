@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Loader from '../../components/loader/Loader';
 import ProductForm from '../../components/product/productForm/ProductForm';
-import { createProduct } from '../../redux/actions/productAction';
+import { clearErrors, createProduct } from '../../redux/actions/productAction';
 import { CREATE_PRODUCT_RESET } from '../../redux/constants/productConstant';
 
 const AddProduct = () => {
-  const { loading, success } = useSelector((state) => state.product);
+  const { loading, success, error } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,7 +62,12 @@ const AddProduct = () => {
       navigate('/dashboard');
       dispatch({ type: CREATE_PRODUCT_RESET });
     }
-  }, [success, navigate, dispatch]);
+
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
+    }
+  }, [success, navigate, dispatch, error]);
 
   return (
     <div>
